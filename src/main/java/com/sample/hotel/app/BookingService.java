@@ -33,7 +33,8 @@ public class BookingService {
         }
         List<RoomReservation> reservations = entityManager
                 .createQuery("select r from RoomReservation r where r.room = :room")
-                .setParameter("room", room).getResultList();
+                .setParameter("room", room)
+                .getResultList();
         LocalDate arrivalBookingDate = booking.getArrivalDate();
         LocalDate departureBookingDate = booking.getDepartureDate();
         for (RoomReservation reservation : reservations) {
