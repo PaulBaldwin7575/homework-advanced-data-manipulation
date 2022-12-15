@@ -6,6 +6,7 @@ import io.jmix.core.DataManager;
 import io.jmix.ui.Dialogs;
 import io.jmix.ui.action.Action;
 import io.jmix.ui.action.DialogAction;
+import io.jmix.ui.component.Component;
 import io.jmix.ui.component.Table;
 import io.jmix.ui.model.CollectionContainer;
 import io.jmix.ui.screen.*;
@@ -53,4 +54,9 @@ public class BookingBrowse extends StandardLookup<Booking> {
         Booking updated = dataManager.save(booking);
         bookingsDc.replaceItem(updated);
     }
+
+//    @Install(to = "bookingsTable.countdownDays", subject = "columnGenerator")
+//    private Component bookingsTableCountdownDaysColumnGenerator(Booking booking) {
+//        return null;
+//    }
 }

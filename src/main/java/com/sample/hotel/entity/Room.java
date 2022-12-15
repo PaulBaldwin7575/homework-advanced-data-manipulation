@@ -3,12 +3,17 @@ package com.sample.hotel.entity;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import java.util.Date;
 import java.util.UUID;
 
 @JmixEntity
@@ -23,12 +28,17 @@ public class Room {
 
     @InstanceName
     @NotNull
+    @Min(value = 100, message = "Number of room between 100 and 999")
+    @Max(value = 999, message = "Number of room between 100 and 999")
     @Column(name = "NUMBER_", nullable = false)
     private Integer number;
 
+    @Min(value = 1, message = "Floor from 1 to 9")
+    @Max(value = 9, message = "Floor from 1 to 9")
     @Column(name = "FLOOR_")
     private Integer floor;
 
+    @Positive(message = "Square meters greater than 0")
     @Column(name = "SQUARE_METERS")
     private Integer squareMeters;
 
@@ -50,6 +60,56 @@ public class Room {
 
     @Column(name = "AIR_CONDITIONER")
     private Boolean airConditioner;
+
+    @CreatedBy
+    @Column(name = "CREATED_BY")
+    private String createdBy;
+
+    @CreatedDate
+    @Temporal(TemporalType.DATE)
+    @Column(name = "CREATED_DATE")
+    private Date createdDate;
+
+    @LastModifiedBy
+    @Column(name = "LAST_MODIFIED_BY")
+    private String lastModifiedBy;
+
+    @LastModifiedDate
+    @Temporal(TemporalType.DATE)
+    @Column(name = "LAST_MODIFIED_DATE")
+    private Date lastModifiedDate;
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getLastModifiedBy() {
+        return lastModifiedBy;
+    }
+
+    public void setLastModifiedBy(String lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public Date getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(Date lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
 
     public Boolean getAirConditioner() {
         return airConditioner;

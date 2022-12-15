@@ -9,7 +9,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.UUID;
 
 @JmixEntity
@@ -30,9 +32,11 @@ public class Client {
     private String lastName;
 
     @Column(name = "EMAIL")
+    @Email(message = "Email must contain \"@\" and \".\"")
     private String email;
 
     @Column(name = "TELEPHONE")
+    @Size(min = 8, max = 16, message = "Telephone must be from 8 to 16 characters")
     private String telephone;
 
     public String getTelephone() {
@@ -75,4 +79,9 @@ public class Client {
         this.id = id;
     }
 
+    @InstanceName
+    @DependsOnProperties({"firstName", "lastName"})
+    public String getInstanceName() {
+        return String.format("%s %s", firstName, lastName);
+    }
 }

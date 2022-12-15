@@ -1,7 +1,9 @@
 package com.sample.hotel.entity;
 
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
+import io.jmix.core.metamodel.annotation.DependsOnProperties;
 import io.jmix.core.metamodel.annotation.JmixEntity;
+import io.jmix.core.metamodel.annotation.JmixProperty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -42,6 +44,16 @@ public class Booking {
     @Column(name = "STATUS", nullable = false)
     @NotNull
     private String status;
+
+    @JmixProperty
+    @DependsOnProperties({"arrivalDate"})
+    public Integer getCountdownDays() {
+        if (arrivalDate != null) {
+            return Math.toIntExact((arrivalDate.toEpochDay() - LocalDate.now().toEpochDay()));
+        } else {
+            return null;
+        }
+    }
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "booking")
     private RoomReservation roomReservation;

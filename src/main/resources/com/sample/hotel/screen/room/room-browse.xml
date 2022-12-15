@@ -10,6 +10,10 @@
                 <property name="floor"/>
                 <property name="squareMeters"/>
                 <property name="sleepingPlaces"/>
+                <property name="createdBy"/>
+                <property name="createdDate"/>
+                <property name="lastModifiedBy"/>
+                <property name="lastModifiedDate"/>
             </fetchPlan>
             <loader id="roomsDl">
                 <query>
@@ -52,6 +56,10 @@
                 <column id="floor"/>
                 <column id="squareMeters"/>
                 <column id="sleepingPlaces"/>
+                <column id="createdBy"/>
+                <column id="createdDate"/>
+                <column id="lastModifiedBy"/>
+                <column id="lastModifiedDate"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel"

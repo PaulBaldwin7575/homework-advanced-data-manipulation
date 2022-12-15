@@ -4,10 +4,18 @@ import com.sample.hotel.entity.Booking;
 import com.sample.hotel.entity.Room;
 import com.sample.hotel.entity.RoomReservation;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.time.LocalDate;
+import java.util.List;
 
 @Component
 public class BookingService {
 
+    @PersistenceContext
+    private EntityManager entityManager;
     /**
      * Check if given room is suitable for the booking.
      * 1) Check that sleeping places is enough to fit numberOfGuests.
@@ -18,8 +26,24 @@ public class BookingService {
      * @param room room
      * @return true if checks are passed successfully
      */
+    @Transactional
     public boolean isSuitable(Booking booking, Room room) {
-        //todo implement me!
+        if (booking.getNumberOfGuests() > room.getSleepingPlaces()) {
+            return false;
+        }
+        List<RoomReservation> reservations = entityManager
+                .createQuery("select r from RoomReservation r where r.room = :room")
+                .setParameter("room", room).getResultList();
+        LocalDate arrivalBookingDate = booking.getArrivalDate();
+        LocalDate departureBookingDate = booking.getDepartureDate();
+        for (RoomReservation reservation : reservations) {
+            LocalDate arrivalReserveDate = reservation.getBooking().getArrivalDate().plusDays(1);
+            LocalDate departureReserveDate = reservation.getBooking().getDepartureDate();
+            List<LocalDate> datesReserve = arrivalReserveDate.datesUntil(departureReserveDate).toList();
+            if (datesReserve.contains(arrivalBookingDate) || datesReserve.contains(departureBookingDate)){
+                return false;
+            }
+        }
         return true;
     }
 
