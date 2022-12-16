@@ -2,6 +2,7 @@ package com.sample.hotel.screen.roomreservation;
 
 import com.sample.hotel.entity.Client;
 import com.sample.hotel.entity.RoomReservation;
+import io.jmix.core.DataManager;
 import io.jmix.ui.Dialogs;
 import io.jmix.ui.action.Action;
 import io.jmix.ui.component.GroupTable;
@@ -16,6 +17,8 @@ public class ReservedRoomsScreen extends StandardLookup<RoomReservation> {
     private GroupTable<RoomReservation> roomReservationsTable;
     @Autowired
     private Dialogs dialogs;
+    @Autowired
+    private DataManager dataManager;
 
     @Subscribe("roomReservationsTable.viewClientEmail")
     public void onRoomReservationsTableViewClientEmail(Action.ActionPerformedEvent event) {
@@ -24,10 +27,13 @@ public class ReservedRoomsScreen extends StandardLookup<RoomReservation> {
             return;
         }
         Client client = reservation.getBooking().getClient();
-
+        Client currentClient = dataManager.load(Client.class)
+                .query("select c from Client c where c.id = :id")
+                .parameter("id", client.getId())
+                .one();
         dialogs.createMessageDialog()
                 .withCaption("Client email")
-                .withMessage(client.getEmail())
+                .withMessage(currentClient.getEmail())
                 .show();
     }
 }

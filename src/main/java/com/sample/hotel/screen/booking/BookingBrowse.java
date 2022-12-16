@@ -11,6 +11,7 @@ import io.jmix.ui.component.Table;
 import io.jmix.ui.model.CollectionContainer;
 import io.jmix.ui.screen.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 @UiController("Booking.browse")
 @UiDescriptor("booking-browse.xml")
@@ -48,7 +49,7 @@ public class BookingBrowse extends StandardLookup<Booking> {
                 )
                 .show();
     }
-
+    @Transactional
     private void cancelBooking(Booking booking) {
         booking.setStatus(BookingStatus.CANCELLED);
         Booking updated = dataManager.save(booking);

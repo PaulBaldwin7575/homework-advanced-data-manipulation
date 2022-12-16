@@ -7,10 +7,18 @@
         <collection id="roomReservationsDc"
                     class="com.sample.hotel.entity.RoomReservation">
             <fetchPlan extends="_base">
-                <property name="booking" fetchPlan="_base">
-                    <property name="client" fetchPlan="_base"/>
+                <property name="booking" fetchPlan="_instance_name">
+                    <property name="arrivalDate"/>
+                    <property name="departureDate"/>
+                    <property name="numberOfGuests"/>
+                    <property name="client" fetchPlan="_instance_name">
+                        <property name="telephone"/>
+                    </property>
+
                 </property>
-                <property name="room" fetchPlan="_base"/>
+                <property name="room" fetchPlan="_instance_name">
+                    <property name="floor"/>
+                </property>
             </fetchPlan>
             <loader id="roomReservationsDl">
                 <query>
