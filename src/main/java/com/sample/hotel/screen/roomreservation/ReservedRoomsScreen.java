@@ -27,13 +27,13 @@ public class ReservedRoomsScreen extends StandardLookup<RoomReservation> {
             return;
         }
         Client client = reservation.getBooking().getClient();
-        Client currentClient = dataManager.load(Client.class)
-                .query("select c from Client c where c.id = :id")
+        String email = dataManager.loadValue(
+                "select c.email from Client c where c.id = :id", String.class)
                 .parameter("id", client.getId())
                 .one();
         dialogs.createMessageDialog()
                 .withCaption("Client email")
-                .withMessage(currentClient.getEmail())
+                .withMessage(email)
                 .show();
     }
 }
